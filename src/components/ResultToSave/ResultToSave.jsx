@@ -6,7 +6,7 @@ import styles from "./ResultToSave.module.css";
 const ResultToSave = ({ result, store }) => {
   const { product, comparison } = result;
 
-  const [comparisonResults, setComparisonResults] = useState(() => comparison.map((el) => ({ ...el, isChecked: false })));
+  const [comparisonResults, setComparisonResults] = useState(() => comparison?.map((el) => ({ ...el, isChecked: false })));
 
   const { title, thumbnail } = product;
   const productPrice = useMemo(() => product.primary_offer?.offer_price || product.primary_offer?.min_price || product.price?.extracted, [product]);
@@ -30,8 +30,8 @@ const ResultToSave = ({ result, store }) => {
 
   const dataToSave = useMemo(() => {
     const selectedComparison = comparisonResults
-      .filter((el) => el.isChecked)
-      .map((el) => {
+      ?.filter((el) => el.isChecked)
+      ?.map((el) => {
         const { total, profit } = getProductPrices(el);
         return {
           product_to_sell: el.title,
@@ -46,11 +46,11 @@ const ResultToSave = ({ result, store }) => {
     ];
   }, [comparisonResults, product, getProductPrices, totalPrice]);
 
-  const canSave = useMemo(() => comparisonResults.some((el) => el.isChecked), [comparisonResults]);
+  const canSave = useMemo(() => comparisonResults?.some((el) => el.isChecked), [comparisonResults]);
 
   const checkAction = useCallback(
     (i) => {
-      const newResults = comparisonResults.map((el, index) => ({ ...el, isChecked: index === i ? !el.isChecked : el.isChecked }));
+      const newResults = comparisonResults?.map((el, index) => ({ ...el, isChecked: index === i ? !el.isChecked : el.isChecked }));
       setComparisonResults(newResults);
     },
     [comparisonResults]
