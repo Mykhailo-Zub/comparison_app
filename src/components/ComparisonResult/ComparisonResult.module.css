@@ -1,0 +1,47 @@
+.wrapper {
+  width: 100%;
+  height: 250px;
+  border: 3px solid #a2c3ff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+}
+
+.wrapper > img {
+  width: 80px;
+}
+
+.wrapper:hover {
+  border-color: #b8ff76;
+}
+
+.wrapper__checked {
+  border-color: #009600 !important;
+}
+
+.left__side {
+  padding-left: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin-top: 4px;
+  width: 100%;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.price {
+  font-weight: 600;
+}
+
+.positive {
+  color: #009600;
+}
+
+.negative {
+  color: #9c1818;
+}

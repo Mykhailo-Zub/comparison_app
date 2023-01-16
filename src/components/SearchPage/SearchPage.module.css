@@ -1,0 +1,33 @@
+.wrapper {
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff90;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 70px;
+}
+
+.header {
+  font-weight: 700;
+  font-size: 24px;
+}
+
+.first_row {
+  margin-top: 20px;
+  width: 400px;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.second_row {
+  width: 400px;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.error_text {
+  font-weight: 600;
+  font-size: 12px;
+  color: #fa1c1c;
+}
