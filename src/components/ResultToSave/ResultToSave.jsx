@@ -8,7 +8,7 @@ const ResultToSave = ({ result, store }) => {
 
   const [comparisonResults, setComparisonResults] = useState(() => comparison?.map((el) => ({ ...el, isChecked: false })));
 
-  const { title, thumbnail } = product;
+  const { title, thumbnail, link, product_page_url } = product;
   const productPrice = useMemo(() => product.primary_offer?.offer_price || product.primary_offer?.min_price || product.price?.extracted, [product]);
   const shippingPrice = useMemo(
     () => (!product?.shipping || product.shipping === "Free shipping" ? 0 : parseFloat(product.shipping.slice(2))),
@@ -29,17 +29,18 @@ const ResultToSave = ({ result, store }) => {
   );
 
   const dataToSave = useMemo(() => {
-    const selectedComparison = comparisonResults
-      ?.filter((el) => el.isChecked)
-      ?.map((el) => {
-        const { total, profit } = getProductPrices(el);
-        return {
-          product_to_sell: el.title,
-          product_to_sell_total_price: total,
-          product_to_sell_profit: profit,
-          product_to_sell_link: el.product_page_url || el.link,
-        };
-      });
+    const selectedComparison =
+      comparisonResults
+        ?.filter((el) => el.isChecked)
+        ?.map((el) => {
+          const { total, profit } = getProductPrices(el);
+          return {
+            product_to_sell: el.title,
+            product_to_sell_total_price: total,
+            product_to_sell_profit: profit,
+            product_to_sell_link: el.product_page_url || el.link,
+          };
+        }) || [];
     return [
       { target_product: product.title, target_product_total_price: totalPrice, target_product_link: product.product_page_url || product.link },
       ...selectedComparison,
@@ -64,7 +65,9 @@ const ResultToSave = ({ result, store }) => {
             <img src={thumbnail} alt={title} />
           </div>
           <div className={styles.product__title} title={title}>
-            {title}
+            <a href={link || product_page_url} target="_blank" rel="noreferrer">
+              {title}
+            </a>
           </div>
         </div>
         <div className={styles.product__right_side}>
@@ -78,21 +81,28 @@ const ResultToSave = ({ result, store }) => {
         </div>
       </div>
       <div className={styles.comparison}>
-        {comparisonResults?.map((el, i) => {
-          const { isChecked, title, thumbnail } = el;
-          const { total, profit } = getProductPrices(el);
-          return (
-            <ComparisonResult
-              key={i}
-              title={title}
-              price={total}
-              profit={profit}
-              thumbnail={thumbnail}
-              isChecked={isChecked}
-              checkAction={() => checkAction(i)}
-            />
-          );
-        })}
+        {comparisonResults?.length ? (
+          comparisonResults?.map((el, i) => {
+            const { isChecked, title, thumbnail, link, product_page_url } = el;
+            const { total, profit } = getProductPrices(el);
+            return (
+              <ComparisonResult
+                key={i}
+                title={title}
+                price={total}
+                profit={profit}
+                thumbnail={thumbnail}
+                isChecked={isChecked}
+                checkAction={() => checkAction(i)}
+                link={link || product_page_url}
+              />
+            );
+          })
+        ) : (
+          <div className={styles.error}>
+            <span>No matches found for this product. Try lowering the matching accuracy or select a different product.</span>
+          </div>
+        )}
       </div>
       <div className={styles.export_button}>
         <ExportToXLSX data={dataToSave} fileName={product.title.slice(0, 15)} disabled={!canSave} />

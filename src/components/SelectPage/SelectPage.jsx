@@ -37,8 +37,17 @@ const SelectPage = ({ searchQuery, filteredResults, comparisonAction, loading })
       </div>
       <div className={styles.results}>
         {resultsToComparison.map((el, i) => {
-          const { isChecked, title, thumbnail } = el;
-          return <ResultToCheck key={i} title={title} thumbnail={thumbnail} isChecked={isChecked} checkAction={() => checkAction(i)} />;
+          const { isChecked, title, thumbnail, link, product_page_url } = el;
+          return (
+            <ResultToCheck
+              key={i}
+              title={title}
+              thumbnail={thumbnail}
+              isChecked={isChecked}
+              checkAction={() => checkAction(i)}
+              link={link || product_page_url}
+            />
+          );
         })}
       </div>
       <LoadingButton loading={loading} sx={{ m: 1, minWidth: 180 }} variant="contained" color={error ? "error" : "primary"} onClick={comparison}>

@@ -17,7 +17,7 @@ function App() {
   const [page, setPage] = useState("search");
   const [query, setQuery] = useState(null);
   const [store, setStore] = useState(null);
-  const [accuracy, setAccuracy] = useState(null);
+  const [accuracy, setAccuracy] = useState(matchAccuracy[matchAccuracy.length - 1]);
   const [error, setError] = useState(false);
   const [errorText, setErrorText] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -61,7 +61,7 @@ function App() {
     setPage("search");
     setQuery(null);
     setStore(null);
-    setAccuracy(null);
+    setAccuracy(matchAccuracy[matchAccuracy.length - 1]);
     setError(false);
     setErrorText(null);
     setLoading(false);
